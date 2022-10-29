@@ -7,3 +7,8 @@ docker-compose up -d --build
 ```
 http://localhost:port/swagger/index.html
 ```
+
+Run app, and browse to http://localhost:8080/swagger/index.html. You will see Swagger (only on the local network) Api documents as shown below:
+
+![swagger-image](../main/assets/swagger-image.png)
+
