@@ -3,7 +3,7 @@ package restclient
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io" // "io/ioutil"
 	"net/http"
 	"os"
 	"time"
@@ -47,7 +47,7 @@ func (c *Client) Login(url, user, password string) error {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}
@@ -92,7 +92,7 @@ func (c *Client) Get(url string) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

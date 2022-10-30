@@ -1,17 +1,20 @@
+.PHONY:
+.SILENT:
+
 lint:
 	staticcheck ./...
+	golangci-lint run
 
 test:
-	# go test -timeout 30s
-	# go test -v -cover ./...
-	go test ./... -coverprofile cover_file
-	go test --short -coverprofile=cover_file -v ./...
-	del cover_file
+	go test --short -coverprofile=cover.out -v ./...
+	make test.coverage
 
 test.coverage:
-	go test ./... -coverprofile cover_file
-	go tool cover -func=cover_file
-	del cover_file
+	go tool cover -func=cover.out | grep "total"
 
+# go install github.com/swaggo/swag/cmd/swag@latest
 swag:
 	swag init -g cmd/main.go
+
+run:
+	docker-compose up -d --build

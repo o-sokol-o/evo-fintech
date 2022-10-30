@@ -10,12 +10,14 @@ import (
 	"github.com/o-sokol-o/evo-fintech/internal/domain"
 )
 
-func Init() *domain.Config {
+func Init() (*domain.Config, error) {
 	var cfg domain.Config
 
-	setFromEnv(&cfg)
+	if err := setFromEnv(&cfg); err != nil {
+		return nil, err
+	}
 
-	return &cfg
+	return &cfg, nil
 }
 
 func setFromEnv(cfg *domain.Config) error {

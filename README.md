@@ -3,7 +3,7 @@
 #### Потрібно реалізувати REST API з двома ендпоінтами:
 1. Завантаження example.csv файлу, парсинг його і збереження результатів парсингу в базу даних. 
 2. Фільтрація і вивантаження попередньо збережених даних в JSON форматі в респонсі.
-+ Вимоги до фільтрів:
+#### Вимоги до фільтрів:
     + пошук по transaction_id
     + пошук по terminal_id (можливість вказати декілька одночасно id)
     + пошук по status (accepted/declined)
@@ -32,12 +32,13 @@ git clone https://github.com/o-sokol-o/evo-fintech
 docker-compose up -d --build
 ```
 
-Browse to http://localhost:8080/swagger/index.html. You will see Swagger (only on the local network) Api documents as shown below:
+Browse to http://localhost:8080/swagger/index.html. 
+You will see Swagger Api documents as shown below:
 
 ![swagger-image](../main/assets/swagger-image.png)
 
 
 ### Please note
--There is a fake delay in the internal\services\worker_pool.go file.
+- There is a fake delay in the internal\services\worker_pool.go file.
 
--The amount of memory consumed depends on the transactionCount and workerCount in the internal\services\worker_pool.go file.
+- The amount of memory consumed depends on the transactionCount and workerCount in the internal\services\worker_pool.go file.

@@ -57,7 +57,7 @@ func TestHandler_downloadRemoteTransactionsCSV(t *testing.T) {
 				s.EXPECT().FetchExternTransactions(ctx, url).Return(domain.DownloadOk, nil)
 			},
 			expectedStatusCode:   200,
-			expectedResponseBody: `{"last_download_status":"download ok"}`,
+			expectedResponseBody: `{"last_download_status":"successfully"}`,
 		},
 		{
 			name:      "Test case: Service Failure",

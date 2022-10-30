@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/o-sokol-o/evo-fintech/docs"
 	swaggerFiles "github.com/swaggo/files"
@@ -36,6 +37,8 @@ func NewHandler(servicesEVO IServicesEVO, servicesRemote IServicesRemote) *Handl
 
 func (h *Handler) Init(cfg *domain.Config) *gin.Engine {
 	router := gin.Default()
+
+	pprof.Register(router) // http://localhost:8080/debug/pprof/
 
 	docs.SwaggerInfo.Host = fmt.Sprintf("%s:%s", cfg.HTTP.Host, cfg.HTTP.Port)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

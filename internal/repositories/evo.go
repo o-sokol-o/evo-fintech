@@ -75,7 +75,7 @@ func (r *RepoEVO) GetFilteredData(ctx context.Context, input domain.FilterSearch
 		setValues = append(setValues, fmt.Sprintf("payment_narrative ILIKE $%d", argId))
 		a := fmt.Sprintf("%%%s%%", *input.PaymentNarrative)
 		args = append(args, a)
-		argId++
+		// argId++
 	}
 
 	setQuery := strings.Join(setValues, " AND ")

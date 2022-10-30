@@ -23,7 +23,10 @@ func init() {
 }
 
 func main() {
-	cfg := config.Init()
+	cfg, err := config.Init()
+	if err != nil {
+		logrus.Fatalln(err)
+	}
 
 	db, err := database.NewPostgresConnection(cfg.Postgres)
 	if err != nil {

@@ -39,7 +39,7 @@ func (r *RepoRemote) Get(ctx context.Context, from, to *int) ([]domain.Transacti
 		setValues = append(setValues, fmt.Sprintf("transaction_id<=$%d", argId))
 		args = append(args, *to)
 		fmt.Printf("%v", *to)
-		argId++
+		// argId++
 	}
 	setQuery := strings.Join(setValues, " AND ")
 

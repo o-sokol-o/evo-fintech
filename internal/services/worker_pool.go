@@ -64,7 +64,7 @@ func (s *ServiceEVO) workerGetTransactionsRemoteURL(ctx context.Context, url str
 
 	var transactions []domain.Transaction
 	// UnmarshalBytes parses the CSV from the bytes in the interface.
-	gocsv.UnmarshalBytes(in_csv, &transactions)
+	err = gocsv.UnmarshalBytes(in_csv, &transactions)
 	if err != nil {
 		logrus.Error(err)
 		return 0, errors.New("error unmarshal csv transactions")

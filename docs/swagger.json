@@ -8,7 +8,7 @@
     "paths": {
         "/api/v1/download_remote_transactions/": {
             "post": {
-                "description": "The request runs fake ~40 seconds. If url='' or download in progress, returns the status of the download.\n\nThe amount of memory consumed depends on the transactionsCount and workerCount in the file internal\\services\\worker_pool.go",
+                "description": "The request runs fake ~40 seconds. If url='' or download in progress, returns the status of the download.\n\nThe amount of memory consumed depends on the transactionCount and workerCount in the internal\\services\\worker_pool.go file.",
                 "tags": [
                     "Services"
                 ],
