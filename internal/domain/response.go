@@ -4,10 +4,10 @@ type Status string
 
 const (
 	Unknown       Status = "unknown"
-	Start         Status = "start"
-	Processing    Status = "processing"
-	DownloadOk    Status = "download ok"
-	DownloadError Status = "download error"
+	Processing    Status = "in progress"
+	Skip          Status = "skip request: download in progress"
+	DownloadOk    Status = "successfully"
+	DownloadError Status = "error"
 )
 
 type ErrorResponse struct {
@@ -15,5 +15,5 @@ type ErrorResponse struct {
 }
 
 type StatusResponse struct {
-	Status Status `json:"last_download_status" swaggertype:"string" enums:"unknown,start,processing,downloadOk,downloadError" example:"unknown"`
+	Status Status `json:"last_download_status" swaggertype:"string" enums:"unknown,in progress,skip request: download in progress,successfully,error" example:"unknown"`
 }

@@ -61,10 +61,10 @@ definitions:
       last_download_status:
         enum:
         - unknown
-        - start
-        - processing
-        - downloadOk
-        - downloadError
+        - in progress
+        - 'skip request: download in progress'
+        - successfully
+        - error
         example: unknown
         type: string
     type: object
@@ -131,6 +131,10 @@ info:
 paths:
   /api/v1/download_remote_transactions/:
     post:
+      description: |-
+        The request runs fake ~40 seconds. If url='' or download in progress, returns the status of the download.
+
+        The amount of memory consumed depends on the transactionsCount and workerCount in the file internal\services\worker_pool.go
       operationId: request-download-remote-transactions
       parameters:
       - description: ' '
@@ -216,6 +220,16 @@ paths:
   /api/v1/get_csv_mock_remote_service/:
     get:
       operationId: getSourceFileCSV_as_MockRemoteService-csv
+      parameters:
+      - description: 'From transaction, example: 10'
+        in: query
+        name: from
+        type: integer
+      - description: 'To transaction, example: 20 (TO must be greater than FROM, if
+          both are present at the same time)'
+        in: query
+        name: to
+        type: integer
       responses:
         "200":
           description: OK
@@ -229,7 +243,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/domain.ErrorResponse'
-      summary: 'Test server: Gives a CSV file with initial transactions'
+      summary: 'Test service: Gives a CSV file with initial transactions'
       tags:
       - Mock remote service
 swagger: "2.0"

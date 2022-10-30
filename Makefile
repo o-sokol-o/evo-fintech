@@ -14,4 +14,4 @@ test.coverage:
 	del cover_file
 
 swag:
-	swag init -g cmd/csv-source/main.go
+	swag init -g cmd/main.go

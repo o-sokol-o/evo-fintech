@@ -18,6 +18,7 @@ const docTemplate = `{
     "paths": {
         "/api/v1/download_remote_transactions/": {
             "post": {
+                "description": "The request runs fake ~40 seconds. If url='' or download in progress, returns the status of the download.\n\nThe amount of memory consumed depends on the transactionsCount and workerCount in the file internal\\services\\worker_pool.go",
                 "tags": [
                     "Services"
                 ],
@@ -150,8 +151,22 @@ const docTemplate = `{
                 "tags": [
                     "Mock remote service"
                 ],
-                "summary": "Test server: Gives a CSV file with initial transactions",
+                "summary": "Test service: Gives a CSV file with initial transactions",
                 "operationId": "getSourceFileCSV_as_MockRemoteService-csv",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "From transaction, example: 10",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "To transaction, example: 20 (TO must be greater than FROM, if both are present at the same time)",
+                        "name": "to",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"
@@ -259,10 +274,10 @@ const docTemplate = `{
                     "type": "string",
                     "enum": [
                         "unknown",
-                        "start",
-                        "processing",
-                        "downloadOk",
-                        "downloadError"
+                        "in progress",
+                        "skip request: download in progress",
+                        "successfully",
+                        "error"
                     ],
                     "example": "unknown"
                 }

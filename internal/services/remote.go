@@ -14,6 +14,6 @@ func NewRemoteServices(repo IRepoRemote) *ServiceRemoteCSV {
 	return &ServiceRemoteCSV{repo: repo}
 }
 
-func (s *ServiceRemoteCSV) Get(ctx context.Context) ([]domain.Transaction, error) {
-	return s.repo.Get(ctx)
+func (s *ServiceRemoteCSV) Get(ctx context.Context, from, to *int) ([]domain.Transaction, error) {
+	return s.repo.Get(ctx, from, to)
 }

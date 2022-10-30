@@ -11,7 +11,7 @@ type IRepoEVO interface {
 	InsertTransactions(ctx context.Context, transactions []domain.Transaction) error
 }
 type IRepoRemote interface {
-	Get(ctx context.Context) ([]domain.Transaction, error)
+	Get(ctx context.Context, from, to *int) ([]domain.Transaction, error)
 }
 
 type Services struct {

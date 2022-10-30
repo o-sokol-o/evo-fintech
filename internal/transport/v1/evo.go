@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +23,7 @@ type IServicesEVO interface {
 	FetchExternTransactions(ctx context.Context, url string) (domain.Status, error)
 }
 type IServicesRemote interface {
-	Get(ctx context.Context) ([]domain.Transaction, error)
+	Get(ctx context.Context, from, to *int) ([]domain.Transaction, error)
 }
 
 type Handler struct {
@@ -101,35 +102,6 @@ func buildCSV(transactions []domain.Transaction) *strings.Reader {
 
 		return strings.NewReader(builder.String())
 	*/
-}
-
-// @Summary Test service: Gives a CSV file with initial transactions
-// @Tags Mock remote service
-// @ID getSourceFileCSV_as_MockRemoteService-csv
-// @Success 200
-// @Success 204
-// @Failure 400 {object} domain.ErrorResponse
-// @Failure 500 {object} domain.ErrorResponse
-// @Router /api/v1/get_csv_mock_remote_service/ [get]
-func (h *Handler) getSourceFileCSV_as_MockRemoteService(ctx *gin.Context) {
-	transactions, err := h.servicesRemote.Get(ctx)
-	if err != nil {
-		newErrorResponse(ctx, http.StatusInternalServerError, err)
-		return
-	}
-
-	if len(transactions) == 0 {
-		newErrorResponse(ctx, http.StatusBadRequest, fmt.Errorf("no data"))
-		return
-	}
-
-	CSV := buildCSV(transactions)
-
-	headers := map[string]string{
-		"Content-Disposition": `attachment; filename="source.csv"`,
-	}
-
-	ctx.DataFromReader(http.StatusOK, -1, "text/html; charset=UTF-8", CSV, headers)
 }
 
 // @Summary Request filtered csv file
@@ -219,9 +191,10 @@ func (h *Handler) getFilteredDataJSON(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, transactions)
 }
 
-// Summary Request to download remote transactions: the request is executed fake 10 seconds, at other times it gives a status.
-
 // @Summary Request to download remote transactions
+// @Description  The request runs fake ~40 seconds. If url='' or download in progress, returns the status of the download.
+// @Description
+// @Description  The amount of memory consumed depends on the transactionCount and workerCount in the internal\services\worker_pool.go file.
 // @Tags Services
 // @ID request-download-remote-transactions
 // @Param   input body     domain.UrlInput true " "
@@ -247,4 +220,58 @@ func (h *Handler) downloadRemoteTransactionsCSV(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, domain.StatusResponse{Status: status})
+}
+
+// @Summary Test service: Gives a CSV file with initial transactions
+// @Tags Mock remote service
+// @ID getSourceFileCSV_as_MockRemoteService-csv
+// @Param from	query integer  	false 	"From transaction, example: 10"
+// @Param to	query integer  	false 	"To transaction, example: 20 (TO must be greater than FROM, if both are present at the same time)"
+// @Success 200
+// @Success 204
+// @Failure 400 {object} domain.ErrorResponse
+// @Failure 500 {object} domain.ErrorResponse
+// @Router /api/v1/get_csv_mock_remote_service/ [get]
+func (h *Handler) getSourceFileCSV_as_MockRemoteService(ctx *gin.Context) {
+
+	query := ctx.Request.URL.Query()
+	from := query.Get("from")
+	to := query.Get("to")
+
+	var fromPtr, toPtr *int
+
+	f, err := strconv.Atoi(from)
+	if err == nil {
+		fromPtr = &f
+	}
+
+	t, err := strconv.Atoi(to)
+	if err == nil {
+		toPtr = &t
+	}
+
+	if f < 0 || t < 0 || (fromPtr != nil && toPtr != nil && f > t) {
+		logrus.Error(err)
+		newErrorResponse(ctx, http.StatusBadRequest, errors.New("data validation error"))
+		return
+	}
+
+	transactions, err := h.servicesRemote.Get(ctx, fromPtr, toPtr)
+	if err != nil {
+		newErrorResponse(ctx, http.StatusInternalServerError, err)
+		return
+	}
+
+	if len(transactions) == 0 {
+		newErrorResponse(ctx, http.StatusBadRequest, fmt.Errorf("no data"))
+		return
+	}
+
+	CSV := buildCSV(transactions)
+
+	headers := map[string]string{
+		"Content-Disposition": `attachment; filename="source.csv"`,
+	}
+
+	ctx.DataFromReader(http.StatusOK, -1, "text/html; charset=UTF-8", CSV, headers)
 }

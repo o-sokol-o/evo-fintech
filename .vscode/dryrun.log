@@ -22,8 +22,7 @@ Syntax: MAKE [options ...] target[s]
     -e                Ignores redefinition of environment variable macros
     -i                Ignores errors returned by commands
     -l+               Enables use of long command lines
-    -m 
-                Displays the date and time stamp of each file
+    -m                Displays the date and time stamp of each file
     -n                Prints commands but does not do them
     -p                Displays all macro definitions and implicit rules
     -q                Returns zero if target is up-to-date and nonzero

@@ -19,7 +19,7 @@ type IServicesEVO interface {
 	FetchExternTransactions(ctx context.Context, url string) (domain.Status, error)
 }
 type IServicesRemote interface {
-	Get(ctx context.Context) ([]domain.Transaction, error)
+	Get(ctx context.Context, from, to *int) ([]domain.Transaction, error)
 }
 
 type Handler struct {
