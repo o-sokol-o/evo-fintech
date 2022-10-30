@@ -62,6 +62,10 @@ func (s *ServiceEVO) workerGetTransactionsRemoteURL(ctx context.Context, url str
 		return 0, errors.New("error REST request")
 	}
 
+	if string(in_csv) == `{"error":"no data"}` {
+		return 0, nil
+	}
+
 	var transactions []domain.Transaction
 	// UnmarshalBytes parses the CSV from the bytes in the interface.
 	err = gocsv.UnmarshalBytes(in_csv, &transactions)
