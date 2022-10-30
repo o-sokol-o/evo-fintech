@@ -36,3 +36,8 @@ Browse to http://localhost:8080/swagger/index.html. You will see Swagger (only o
 
 ![swagger-image](../main/assets/swagger-image.png)
 
+
+### Please note
+-There is a fake delay in the internal\services\worker_pool.go file.
+
+-The amount of memory consumed depends on the transactionCount and workerCount in the internal\services\worker_pool.go file.
