@@ -89,16 +89,16 @@ func (m *MockIServicesRemote) EXPECT() *MockIServicesRemoteMockRecorder {
 }
 
 // Get mocks base method.
-func (m *MockIServicesRemote) Get(ctx context.Context) ([]domain.Transaction, error) {
+func (m *MockIServicesRemote) Get(ctx context.Context, from, to *int) ([]domain.Transaction, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", ctx)
+	ret := m.ctrl.Call(m, "Get", ctx, from, to)
 	ret0, _ := ret[0].([]domain.Transaction)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockIServicesRemoteMockRecorder) Get(ctx interface{}) *gomock.Call {
+func (mr *MockIServicesRemoteMockRecorder) Get(ctx, from, to interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockIServicesRemote)(nil).Get), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockIServicesRemote)(nil).Get), ctx, from, to)
 }

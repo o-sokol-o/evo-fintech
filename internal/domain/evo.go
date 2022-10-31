@@ -44,27 +44,3 @@ type Transaction struct {
 	PayeeBankAccount   string    `json:"payee_bnank_account" db:"payee_bnank_account"`
 	PaymentNarrative   string    `json:"payment_narrative"   db:"payment_narrative"`
 }
-
-// var a = Transaction{
-// 	TransactionId:      1,
-// 	RequestId:          20020,
-// 	TerminalId:         3506,
-// 	PartnerObjectId:    1111,
-// 	AmountTotal:        1.00,
-// 	AmountOriginal:     1.00,
-// 	CommissionPS:       0.00,
-// 	CommissionClient:   0.00,
-// 	CommissionProvider: 0.00,
-// 	DateInput:          "2022-08-12 11:25:27",
-// 	DatePost:           "2022-08-12 14:25:27",
-// 	Status:             "accepted",
-// 	PaymentType:        "cash",
-// 	PaymentNumber:      "PS16698205",
-// 	ServiceId:          13980,
-// 	Service:            "Поповнення карток",
-// 	PayeeId:            14232155,
-// 	PayeeName:          "pumb",
-// 	PayeeBankMfo:       254751,
-// 	PayeeBankAccount:   "UA713451373919523",
-// 	PaymentNarrative:   "Перерахування коштів згідно договору про надання послуг А11/27122 від 19.11.2020 р.",
-// }

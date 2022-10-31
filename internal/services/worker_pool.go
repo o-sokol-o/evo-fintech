@@ -47,8 +47,8 @@ func (j *job) getSetStatus(tr int, status domain.Status) {
 	j.Transactions = j.Transactions + tr
 	j.mu.Unlock()
 }
-func (s *ServiceEVO) workerGetTransactionsRemoteURL(ctx context.Context, url string) (int, error) {
 
+func (s *ServiceEVO) workerGetTransactionsRemoteURL(ctx context.Context, url string) (int, error) {
 	restClient, err := restclient.NewClient(time.Second * 180)
 	if err != nil {
 		logrus.Error(err)
@@ -88,7 +88,6 @@ func (s *ServiceEVO) workerGetTransactionsRemoteURL(ctx context.Context, url str
 }
 
 func (s *ServiceEVO) worker(wid int, ctx context.Context, url string, job *job) {
-
 	for {
 		from, to := job.getFromTo()
 		fmt.Printf("Worker #%d start: Get transactions from %d  to %d\n", wid, from, to)
@@ -128,7 +127,6 @@ func (s *ServiceEVO) worker(wid int, ctx context.Context, url string, job *job) 
 }
 
 func (s *ServiceEVO) workerPoolDownloadTransactions(ctx context.Context, url string) {
-
 	fmt.Printf("\n\n------------------------------ Worker Pool Start!\n")
 
 	startTime := time.Now()

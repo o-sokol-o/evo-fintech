@@ -90,8 +90,6 @@ func (r *RepoEVO) GetFilteredData(ctx context.Context, input domain.FilterSearch
 }
 
 func (r *RepoEVO) InsertTransactions(ctx context.Context, transactions []domain.Transaction) error {
-
-	// query := "INSERT INTO people (name, email, street, city, country, zip) VALUES (:name, :email, :address.street, :address.city, :address.country, :address.zip)"
 	query := fmt.Sprintf(`INSERT INTO %s 
 		(transaction_id, request_id, terminal_id, partner_object_id, amount_total, amount_original, commission_ps, commission_client, commission_provider, date_input, date_post, status, payment_type, payment_number, service_id, service, payee_id, payee_name, payee_bnank_mfo, payee_bnank_account, payment_narrative) 
 		VALUES (:transaction_id, :request_id, :terminal_id, :partner_object_id, :amount_total, :amount_original, :commission_ps, :commission_client, :commission_provider, :date_input, :date_post, :status, :payment_type, :payment_number, :service_id, :service, :payee_id, :payee_name, :payee_bnank_mfo, :payee_bnank_account, :payment_narrative)`,

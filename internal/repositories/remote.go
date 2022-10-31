@@ -21,7 +21,6 @@ func NewRemoteRepo(db *sqlx.DB) *RepoRemote {
 }
 
 func (r *RepoRemote) Get(ctx context.Context, from, to *int) ([]domain.Transaction, error) {
-
 	var sourceCSV []domain.Transaction
 
 	setValues := make([]string, 0)

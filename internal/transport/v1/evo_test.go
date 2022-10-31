@@ -35,7 +35,6 @@ func getPointerTime(t string) *time.Time {
 }
 
 func TestHandler_downloadRemoteTransactionsCSV(t *testing.T) {
-
 	type mockBehavior func(s *mock_service.MockIServicesEVO, ctx context.Context, url string)
 
 	fmt.Println("----------------  Test download Remote Transactions CSV ---------------")
@@ -117,10 +116,9 @@ func TestHandler_downloadRemoteTransactionsCSV(t *testing.T) {
 }
 
 func TestHandler_getFilteredDataJSON(t *testing.T) {
-
 	type mockBehavior func(s *mock_service.MockIServicesEVO, ctx context.Context, input domain.FilterSearchInput)
 
-	fmt.Println("----------------  Test getFilteredDataJSON ---------------")
+	fmt.Println("----------------  Test get Filtered Data JSON ---------------")
 
 	testTrns := domain.Transaction{
 		TransactionId:      18,
@@ -326,37 +324,10 @@ func TestHandler_getFilteredDataJSON(t *testing.T) {
 }
 
 func TestHandler_getFilteredFileCSV(t *testing.T) {
-
 	type mockBehavior func(s *mock_service.MockIServicesEVO, ctx context.Context, input domain.FilterSearchInput)
 
-	fmt.Println("----------------  Test getFilteredDataJSON ---------------")
-	/*
-		testTrns := domain.Transaction{
-			TransactionId:      18,
-			RequestId:          20190,
-			TerminalId:         3523,
-			PartnerObjectId:    1111,
-			AmountTotal:        120,
-			AmountOriginal:     120,
-			CommissionPS:       0.08,
-			CommissionClient:   0,
-			CommissionProvider: -0.24,
-			DateInput:          *getPointerTime("2022-08-23T11:58:16.000Z"),
-			DatePost:           *getPointerTime("2022-08-23T14:58:16.000Z"),
-			Status:             "accepted",
-			PaymentType:        "cash",
-			PaymentNumber:      "PS16698375",
-			ServiceId:          14150,
-			Service:            "Поповнення карток",
-			PayeeId:            15933855,
-			PayeeName:          "privat",
-			PayeeBankMfo:       271768,
-			PayeeBankAccount:   "UA713620688819353",
-			PaymentNarrative:   "Перерахування коштів згідно договору про надання послуг А11/27123 від 19.11.2020 р.",
-		}
+	fmt.Println("----------------  Test get Filtered File CSV ---------------")
 
-		testTrnsStr := `{"transaction_id":18,"request_id":20190,"terminal_id":3523,"partner_object_id":1111,"amount_total":120,"amount_original":120,"commission_ps":0.08,"commission_client":0,"commission_provider":-0.24,"date_input":"2022-08-23T11:58:16Z","date_post":"2022-08-23T14:58:16Z","status":"accepted","payment_type":"cash","payment_number":"PS16698375","service_id":14150,"service":"Поповнення карток","payee_id":15933855,"payee_name":"privat","payee_bnank_mfo":271768,"payee_bnank_account":"UA713620688819353","payment_narrative":"Перерахування коштів згідно договору про надання послуг А11/27123 від 19.11.2020 р."}`
-	*/
 	testTable := []struct {
 		name                 string
 		inputBody            string
@@ -365,43 +336,6 @@ func TestHandler_getFilteredFileCSV(t *testing.T) {
 		expectedStatusCode   int
 		expectedResponseBody string
 	}{
-		// {
-		// 	name: "Test case: OK",
-		// 	inputBody: `{
-		// 				"payment_narrative": "договору про надання послуг А11/27123",
-		// 				"payment_type": "cash",
-		// 				"period": {
-		// 					"from": "2022-08-23T11:56:00.000Z",
-		// 					"to": "2022-08-24T00:00:00.000Z"
-		// 				  },
-		// 				"status": "accepted",
-		// 				"terminal_id": [3521,3522,3523,3524,3525,3526,3527,3528,3529],
-		// 				"transaction_id": 18
-		// 			  }`,
-
-		// 	inputFilter: domain.FilterSearchInput{
-		// 		TransactionId: getPointerInt(18),
-		// 		TerminalId:    []int{3521, 3522, 3523, 3524, 3525, 3526, 3527, 3528, 3529},
-		// 		Status:        getPointerString("accepted"),
-		// 		PaymentType:   getPointerString("cash"),
-		// 		Period: &domain.Period{ // наприклад: from 2022-08-12, to 2022-09-01 повинен повернути всі транзакції за вказаний період
-		// 			From: getPointerTime("2022-08-23T11:56:00.000Z"),
-		// 			To:   getPointerTime("2022-08-24T00:00:00.000Z"),
-		// 		},
-		// 		PaymentNarrative: getPointerString("договору про надання послуг А11/27123"), // частково вказаному
-		// 	},
-		// 	mockBehavior: func(s *mock_service.MockIServicesEVO, ctx context.Context, input domain.FilterSearchInput) {
-		// 		s.EXPECT().GetFilteredData(ctx, input).Return(
-		// 			[]domain.Transaction{
-		// 				testTrns,
-		// 				testTrns,
-		// 				testTrns,
-		// 			}, nil)
-		// 	},
-		// 	expectedStatusCode:   200,
-		// 	expectedResponseBody: "[" + testTrnsStr + "," + testTrnsStr + "," + testTrnsStr + "]",
-		// },
-
 		{
 			name: "Test case: OK = no content",
 			inputBody: `{

@@ -50,58 +50,9 @@ func (h *Handler) Init(api *gin.RouterGroup) {
 	}
 }
 
-// func getHeadersCSV(myStruct domain.Transaction) string {
-// 	var header string
-// 	e := reflect.ValueOf(&myStruct).Elem()
-// 	if e.NumField() > 1 {
-// 		header = e.Type().Field(1).Name
-// 	}
-// 	for i := 2; i < e.NumField(); i++ {
-// 		header = header + "," + e.Type().Field(i).Name
-// 	}
-// 	return header
-// }
-
 func buildCSV(transactions []domain.Transaction) *strings.Reader {
-
 	str, _ := gocsv.MarshalString(&transactions)
 	return strings.NewReader(str)
-
-	/*
-		var builder strings.Builder
-
-		// get the column names first
-		builder.WriteString(getHeadersCSV(transactions[0]) + "\n")
-
-		// for _, trns := range transactions {
-		// 	w := fmt.Sprintf("%s,%d\n", trns.Service, trns.TransactionId)
-		// 	builder.WriteString(w)
-		// }
-
-		enc := struct2csv.New()
-		// var rows [][]string
-
-		// get the column names first
-		// colhdrs, err := enc.GetColNames(transactions[0])
-		// if err != nil {
-		// 	// handle error
-		// }
-		// builder.WriteString(strings.Join(colhdrs, ",") + "\n")
-
-		// get the data from each struct
-		for _, v := range transactions {
-			row, _ := enc.GetRow(v)
-			// if err != nil {
-			// 	// handle error
-			// }
-			// rows = append(rows, row)
-
-			builder.WriteString(strings.Join(row, ",") + "\n")
-
-		}
-
-		return strings.NewReader(builder.String())
-	*/
 }
 
 // @Summary Request filtered csv file

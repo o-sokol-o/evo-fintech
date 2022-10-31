@@ -1,8 +1,6 @@
 package main
 
 import (
-	"context"
-
 	_ "github.com/jackc/pgx/v4"
 	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/o-sokol-o/evo-fintech/internal/config"
@@ -32,6 +30,7 @@ func main() {
 	if err != nil {
 		logrus.Fatalln(err)
 	}
+	defer db.Close()
 
 	repo := repositories.New(db)
 	service := services.New(repo.RepoEVO, repo.RepoRemote)
@@ -49,7 +48,7 @@ func main() {
 
 	signaler.Wait()
 
-	if err = srv.Stop(context.Background()); err != nil {
+	if err = srv.Stop(); err != nil {
 		logrus.Errorf("error occured on server shutting down: %s", err.Error())
 	}
 }

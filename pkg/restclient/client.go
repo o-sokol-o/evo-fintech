@@ -3,7 +3,7 @@ package restclient
 import (
 	"errors"
 	"fmt"
-	"io" // "io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"time"
